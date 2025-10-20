@@ -64,4 +64,4 @@ function abrirVentanaBusquedaDocentes() {
         .then(html => {
             document.getElementById("busqueda_docentes").innerHTML = html;
         });
-}
+} 

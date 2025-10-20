@@ -61,4 +61,4 @@ def eliminar(id):
     cnx.commit()
     cursor.close()
     cnx.close()
-    return True
+    return True 

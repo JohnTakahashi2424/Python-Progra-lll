@@ -1,8 +1,10 @@
 async function guardarMaterias() {
     const datos = {
+        Idmaterias: document.getElementById("hidIdMateria").value || null,
         codigo: document.getElementById("txtCodigoMateria").value,
         nombre: document.getElementById("txtNombreMateria").value,
-        descripcion: document.getElementById("txtDescripcionMateria").value
+        creditos: Number(document.getElementById("numCreditosMateria").value) || 0,
+        horas: Number(document.getElementById("numHorasMateria").value) || 0
     };
     const respuesta = await fetch("/guardar_materia", {
         method: "POST",
@@ -17,7 +19,9 @@ async function guardarMaterias() {
 function limpiarFormularioMateria(){
     document.getElementById("txtCodigoMateria").value = "";
     document.getElementById("txtNombreMateria").value = "";
-    document.getElementById("txtDescripcionMateria").value = "";
+    document.getElementById("hidIdMateria").value = "";
+    document.getElementById("numCreditosMateria").value = "";
+    document.getElementById("numHorasMateria").value = "";
 }
 
 async function obtenerMaterias() {
@@ -27,10 +31,14 @@ async function obtenerMaterias() {
     tbody.innerHTML = "";
     materias.forEach(materia => {
         const fila = `<tr>
+            <td>${materia.Idmaterias}</td>
             <td>${materia.codigo}</td>
             <td>${materia.nombre}</td>
-            <td>${materia.descripcion}</td>
-            <td><button onclick='eliminarMateria(${materia.idMateria})' class='btn btn-danger btn-sm'>Eliminar</button></td>
+            <td>${materia.creditos}</td>
+            <td>${materia.horas}</td>
+            <td>
+                <button onclick='eliminarMateria(${materia.Idmaterias})' class='btn btn-danger btn-sm'>Eliminar</button>
+            </td>
         </tr>`;
         tbody.innerHTML += fila;
     });
