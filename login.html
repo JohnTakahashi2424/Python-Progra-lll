@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistema Academico</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
+       crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css"/>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="card text-bg-dark">
+            <div class="card-header text-center">
+                <h3>SISTEMA ACADEMICO</h3>
+                <p class="mb-0">Inicio de Sesión</p>
+            </div>
+            <div class="card-body">
+                <form id="frmLogin">
+                    <div class="mb-3">
+                        <label for="txtUsuario" class="form-label">Usuario</label>
+                        <input required type="text" id="txtUsuario" name="txtUsuario" class="form-control" placeholder="Ingrese su usuario" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtClave" class="form-label">Contraseña</label>
+                        <input required type="password" id="txtClave" name="txtClave" class="form-control" placeholder="Ingrese su contraseña" />
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">INGRESAR</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", event=>{
+            frmLogin.addEventListener("submit", async e=>{
+                e.preventDefault();
+                
+                let datos = {
+                    usuario: txtUsuario.value,
+                    clave: txtClave.value
+                };
+                
+                let response = await fetch("/login", {
+                    method: "POST",
+                    body: JSON.stringify(datos),
+                }), 
+                    respuesta = await response.json();
+                
+                if(respuesta.status === "ok"){
+                    alertify.success(`Bienvenido ${respuesta.usuario.nombre}`);
+                    // Guardar sesión en localStorage
+                    localStorage.setItem("usuarioLogueado", JSON.stringify(respuesta.usuario));
+                    // Redirigir al sistema
+                    setTimeout(() => {
+                        window.location.href = "index.html";
+                    }, 1000);
+                } else {
+                    alertify.error(respuesta.msg);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

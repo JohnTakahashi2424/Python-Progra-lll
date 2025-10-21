@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="es" data-bs-theme="dark">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRUD - Académico - Python</title>
+    <title>CRUD - Academico - Python</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/themes/base/jquery-ui.min.css">
-    <!-- CSS -->
+       <!-- CSS -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css"/>
     <!-- Default theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/default.min.css"/>
@@ -15,412 +14,88 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/semantic.min.css"/>
     <!-- Bootstrap theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css"/>
-    
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding-top: 80px;
-        }
-        
-        /* Navbar moderna */
-        .modern-navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            padding: 15px 0;
-            animation: slideDown 0.5s ease-out;
-        }
-        
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        
-        .navbar-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .navbar-brand-modern {
-            font-size: 24px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: transform 0.3s;
-        }
-        
-        .navbar-brand-modern:hover {
-            transform: scale(1.05);
-        }
-        
-        .navbar-brand-icon {
-            font-size: 32px;
-            filter: drop-shadow(0 2px 4px rgba(102, 126, 234, 0.3));
-        }
-        
-        .navbar-menu {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        .nav-item-modern {
-            position: relative;
-            padding: 12px 24px;
-            border-radius: 12px;
-            text-decoration: none;
-            color: #4a5568;
-            font-weight: 600;
-            font-size: 15px;
-            transition: all 0.3s;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            overflow: hidden;
-        }
-        
-        .nav-item-modern::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            border-radius: 12px;
-            z-index: -1;
-        }
-        
-        .nav-item-modern:hover {
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-        
-        .nav-item-modern:hover::before {
-            opacity: 1;
-        }
-        
-        .nav-item-modern.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-        
-        .nav-icon {
-            font-size: 20px;
-        }
-        
-        /* Hamburger menu para móvil */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            padding: 10px;
-        }
-        
-        .hamburger span {
-            width: 25px;
-            height: 3px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 3px;
-            transition: all 0.3s;
-        }
-        
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(8px, 8px);
-        }
-        
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-        
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -7px);
-        }
-        
-        @media (max-width: 768px) {
-            .hamburger {
-                display: flex;
-            }
-            
-            .navbar-menu {
-                position: fixed;
-                top: 80px;
-                left: 0;
-                right: 0;
-                background: rgba(255, 255, 255, 0.98);
-                backdrop-filter: blur(20px);
-                flex-direction: column;
-                padding: 20px;
-                gap: 10px;
-                transform: translateY(-120%);
-                transition: transform 0.3s;
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            }
-            
-            .navbar-menu.active {
-                transform: translateY(0);
-            }
-            
-            .nav-item-modern {
-                width: 100%;
-                justify-content: center;
-            }
-        }
-        
-        /* Contenedor principal */
-        .main-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 30px;
-            position: relative;
-            min-height: calc(100vh - 80px);
-        }
-        
-        /* Estilos para los contenedores de formularios */
-        .position-absolute {
-            position: fixed !important;
-            z-index: 100;
-        }
-        
-        /* Cursor para indicar que se puede arrastrar */
-        .form-header {
-            cursor: move !important;
-            user-select: none;
-        }
-        
-        /* Animación de partículas de fondo */
-        .background-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-        
-        .particle {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            animation: float 15s infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) translateX(0);
-            }
-            50% {
-                transform: translateY(-100px) translateX(100px);
-            }
-        }
-        
-        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
-        .particle:nth-child(2) { left: 20%; animation-delay: 2s; }
-        .particle:nth-child(3) { left: 30%; animation-delay: 4s; }
-        .particle:nth-child(4) { left: 40%; animation-delay: 1s; }
-        .particle:nth-child(5) { left: 50%; animation-delay: 3s; }
-        .particle:nth-child(6) { left: 60%; animation-delay: 5s; }
-        .particle:nth-child(7) { left: 70%; animation-delay: 2.5s; }
-        .particle:nth-child(8) { left: 80%; animation-delay: 4.5s; }
-        .particle:nth-child(9) { left: 90%; animation-delay: 1.5s; }
-    </style>
 </head>
 <body>
-    <!-- Animación de fondo -->
-    <div class="background-animation">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-    </div>
-
-    <!-- Navbar moderna y fija -->
-    <nav class="modern-navbar">
-        <div class="navbar-content">
-            <a href="#" class="navbar-brand-modern">
-                <span class="navbar-brand-icon">🎓</span>
-                <span>SISTEMA ACADÉMICO</span>
-            </a>
-            
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            
-            <div class="navbar-menu" id="navbarMenu">
-                <a href="#" class="nav-item-modern" data-form="alumnos">
-                    <span class="nav-icon">👨‍🎓</span>
-                    <span>Alumnos</span>
-                </a>
-                <a href="#" class="nav-item-modern" data-form="materias">
-                    <span class="nav-icon">📚</span>
-                    <span>Materias</span>
-                </a>
-                <a href="#" class="nav-item-modern" data-form="docentes">
-                    <span class="nav-icon">👨‍🏫</span>
-                    <span>Docentes</span>
-                </a>
-                <a href="#" class="nav-item-modern" data-form="notas">
-                    <span class="nav-icon">📝</span>
-                    <span>Notas</span>
-                </a>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">::.. SISTEMA ACADEMICO ..::</a>
+            <div class="collapse navbar-collapse" id="mnxAcademica">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="#" data-form="alumnos">Alumnos</a>
+                    <a class="nav-link" href="#" data-form="materias">Materias</a>
+                    <a class="nav-link" href="#" data-form="docentes">Docentes</a>
+                    <a class="nav-link" href="#" data-form="usuarios">Usuarios</a>
+                </div>
+                <div class="navbar-nav ms-auto">
+                    <span class="navbar-text me-3" id="lblUsuario"></span>
+                    <a class="nav-link" href="#" id="btnCerrarSesion">Cerrar Sesión</a>
+                </div>
             </div>
         </div>
     </nav>
-
-    <!-- Contenedor principal -->
-    <div class="main-container">
+    <div class="container-fluid">
         <div class="position-absolute" id="alumnos"></div>
         <div class="position-absolute" id="busqueda_alumnos"></div>
         <div class="position-absolute" id="materias"></div>
         <div class="position-absolute" id="busqueda_materias"></div>
         <div class="position-absolute" id="docentes"></div>
         <div class="position-absolute" id="busqueda_docentes"></div>
-        <div class="position-absolute" id="notas"></div>
-        <div class="position-absolute" id="busqueda_notas"></div>
+        <div class="position-absolute" id="usuarios"></div>
+        <div class="position-absolute" id="busqueda_usuarios"></div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js" integrity="sha512-MSOo1aY+3pXCOCdGAYoBZ6YGI5SA9IEKJiPjdfqWFWmZtRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js" integrity="sha512-MSOo1aY+3pXCOCdGAYoBZ6YGI0aragoQsg1mKKBHXCYPIWxamwOE7Drh+N5CPgGI5SA9IEKJiPjdfqWFWmZtRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <!-- JavaScript -->
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
     <script>
-        let offsetCounter = 0;
-        
-        document.addEventListener("DOMContentLoaded", event => {
-            // Funcionalidad del menú hamburguesa
-            const hamburger = document.getElementById('hamburger');
-            const navbarMenu = document.getElementById('navbarMenu');
-            
-            hamburger.addEventListener('click', () => {
-                hamburger.classList.toggle('active');
-                navbarMenu.classList.toggle('active');
-            });
-            
-            // Funcionalidad de navegación
-            const navItems = document.querySelectorAll('.nav-item-modern');
-            
-            navbarMenu.addEventListener('click', e => {
-                e.preventDefault();
-                
-                if (e.target.closest('.nav-item-modern')) {
-                    const navItem = e.target.closest('.nav-item-modern');
-                    let form = navItem.dataset.form;
-                    
-                    // Remover clase active de todos los items
-                    navItems.forEach(item => item.classList.remove('active'));
-                    
-                    // Agregar clase active al item clickeado
-                    navItem.classList.add('active');
-                    
-                    // Cerrar menú móvil
-                    hamburger.classList.remove('active');
-                    navbarMenu.classList.remove('active');
-                    
-                    // Abrir ventana
-                    abrirVentana(form);
-                }
-            });
-        });
-        
-        function abrirVentana(form, callback) {
-            const $container = $(`#${form}`);
-            
-            // Si ya está cargado, solo mostrarlo
-            if ($container.find('form, .form-container').length > 0) {
-                $container.show();
+        // Verificar si hay sesión activa
+        document.addEventListener("DOMContentLoaded", event=>{
+            let usuarioLogueado = localStorage.getItem("usuarioLogueado");
+            if(!usuarioLogueado){
+                window.location.href = "login.html";
                 return;
             }
             
-            // Cargar el formulario
-            fetch(`/vistas?form=${form}`)
-            .then(response => response.text())
-            .then(ventana => {
-                $container.html(ventana);
+            let usuario = JSON.parse(usuarioLogueado);
+            lblUsuario.textContent = `Usuario: ${usuario.nombre}`;
+            
+            mnxAcademica.addEventListener('click', e=>{
+                e.preventDefault();
                 
-                // Calcular posición inicial
-                const windowWidth = $(window).width();
-                const windowHeight = $(window).height();
-                
-                // Centrar con un pequeño offset para cada ventana
-                const left = (windowWidth / 2) - 300 + (offsetCounter * 40);
-                const top = 100 + (offsetCounter * 40);
-                
-                $container.css({
-                    'left': left + 'px',
-                    'top': top + 'px',
-                    'display': 'block'
-                });
-                
-                // Incrementar offset
-                offsetCounter = (offsetCounter + 1) % 8;
-                
-                // Hacer el DIV COMPLETO arrastrable
-                $container.draggable({
-                    handle: ".form-header",
-                    cursor: "move",
-                    scroll: false,
-                    cancel: "input, textarea, button, select, .btn",
-                    containment: "window"
-                });
-                
-                cerrarVentana();
-                if(callback) callback();
-            })
-            .catch(error => {
-                console.error('Error:', error);
+                let form = e.target.dataset.form;
+                if(form){
+                    abrirVentana(form);
+                }
             });
-        }
+            
+            btnCerrarSesion.addEventListener('click', e=>{
+                e.preventDefault();
+                localStorage.removeItem("usuarioLogueado");
+                alertify.success('Sesión cerrada correctamente');
+                setTimeout(() => {
+                    window.location.href = "login.html";
+                }, 1000);
+            });
+        });
         
-        function cerrarVentana() {
-            $('.btn-close').off('click').click(e => {
+        function abrirVentana(form, callback){
+            if( $(`#${form} > form`).length === 0 ){
+                fetch(`/vistas?form=${form}`)
+                .then(response => response.text())
+                .then(ventana => {
+                    $(`#${form}`).html(ventana).draggable();
+                    cerrarVentana();
+                    if(callback) callback();
+                })
+                .catch(error => console.error('Error al cargar el formulario:', error));
+            }else{
+                $(`#${form}`).show();
+            }
+        }
+        function cerrarVentana(){
+            $('.btn-close').off('click').click(e=>{
                 let form = e.target.dataset.form;
                 $(`#${form}`).hide();
             });

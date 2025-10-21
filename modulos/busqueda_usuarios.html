@@ -1,0 +1,58 @@
+<form id="frmBusquedaUsuarios">
+    <div class="card text-bg-dark">
+        <div class="card-header">
+            <div class="d-flex">
+                BUSQUEDA DE USUARIOS
+                <div class="ms-auto">
+                    <button data-form="busqueda_usuarios" type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover table-dark table-striped text-white">
+                <thead>
+                    <tr>
+                        <th>USUARIO</th>
+                        <th>NOMBRE</th>
+                        <th>DIRECCION</th>
+                        <th>TELEFONO</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tblUsuarios"></tbody>
+            </table>
+        </div>
+    </div>
+</form>
+<script>
+    obtenerUsuarios();
+    async function obtenerUsuarios(){
+        let response = await fetch("/usuarios"), 
+            respuesta = await response.json();
+        mostrarDatosUsuarios(respuesta);
+    }
+    function mostrarDatosUsuarios(usuarios){
+        let filas = "";
+        usuarios.forEach(usuario=>{
+            filas += `
+                <tr onClick='mostrarUsuario(${ JSON.stringify(usuario) })'>
+                    <td>${usuario.usuario}</td>
+                    <td>${usuario.nombre}</td>
+                    <td>${usuario.direccion}</td>
+                    <td>${usuario.telefono}</td>
+                    <td><button onClick='eliminarUsuario(${ JSON.stringify(usuario) }, event)' class="btn btn-outline-danger btn-sm">ELIMINAR</button></td>
+                </tr>
+            `;
+        });
+        tblUsuarios.innerHTML = filas;
+    }
+    function eliminarUsuario(usuario, event){
+        event.preventDefault();
+
+        if(confirm(`Esta seguro de eliminar al usuario ${usuario.nombre}`)){
+            idUsuario = usuario.idUsuario;
+            accion = "eliminar";
+            guardarUsuarios();
+        }
+    }
+</script>
