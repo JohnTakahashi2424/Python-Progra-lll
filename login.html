@@ -4,44 +4,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Sistema Academico</title>
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
-       crossorigin="anonymous" referrerpolicy="no-referrer" />
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css"/>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css"/>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap">
+    
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        /* FONDO PRINCIPAL DEL BODY CON GRADIENTE (SIN CAMBIOS) */
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            /* Gradiente Morado/Azul */
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
         }
-        .login-card {
+
+        /* 🔥 CAMBIO CLAVE: AUMENTO DE TAMAÑO Y REFINAMIENTO DE CONTENEDOR */
+        .login-card-container {
             width: 100%;
-            max-width: 400px;
-            padding: 2rem;
+            /* Aumenta de 400px a 450px para hacerlo más grande */
+            max-width: 450px; 
+            padding: 0; /* Removemos el padding del contenedor, lo manejamos en la tarjeta */
+            z-index: 10;
+        }
+
+        /* ESTILO PARA LA TARJETA DE LOGIN (Glassmorphism/Crystal Effect) */
+        .login-card {
+            /* Fondo semi-transparente con blur (efecto cristal) */
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            /* Sombra más marcada */
+            box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5); 
+            color: #ffffff; 
+            padding: 30px; /* Aumentamos el padding interno para simetría */
+        }
+
+        /* ESTILO PARA EL HEADER DE LA TARJETA (Título) */
+        .card-header-modern {
+            padding: 0 0 20px 0; /* Ajustamos padding para mejor simetría */
+            margin-bottom: 20px; /* Añadimos separación después del header */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Línea divisoria sutil */
+        }
+
+        .card-header-modern h3 {
+            font-weight: 700;
+            /* Título más grande */
+            font-size: 30px; 
+            /* Aplicamos el gradiente al título para que coincida con el index/materias */
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            margin-bottom: 0 !important; /* Quitamos margen innecesario */
+        }
+        
+        .card-header-modern p {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 400; /* Lo hacemos un poco más grueso */
+            font-size: 16px;
+        }
+
+        /* ESTILO PARA LOS CAMPOS DE FORMULARIO */
+        .form-label {
+            font-weight: 500;
+            color: #ffffff; /* Aseguramos que el label sea blanco */
+            margin-bottom: 5px;
+        }
+
+        .form-control-modern {
+            background-color: rgba(255, 255, 255, 0.15); /* Ligeramente menos transparente */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            transition: all 0.3s;
+            padding: 12px 18px; /* Inputs más grandes */
+            border-radius: 12px; /* Bordes más suaves */
+        }
+
+        .form-control-modern::placeholder {
+            color: rgba(255, 255, 255, 0.6); /* Placeholder más visible */
+        }
+
+        .form-control-modern:focus {
+            background-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.5); 
+            border-color: #667eea;
+            color: #ffffff;
+        }
+
+        /* ESTILO PARA EL BOTÓN DE INGRESAR */
+        .btn-ingresar-modern {
+            /* Gradiente de Ingreso (Azul/Cian) */
+            background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+            border: none;
+            color: #000000;
+            font-weight: 700; /* Botón más negrito */
+            padding: 14px 0; /* Botón más alto */
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-ingresar-modern:hover {
+            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.7); /* Sombra más fuerte al pasar el mouse */
+            transform: translateY(-3px); /* Movimiento ligeramente mayor */
+            color: #000000;
         }
     </style>
 </head>
 <body>
-    <div class="login-card">
-        <div class="card text-bg-dark">
-            <div class="card-header text-center">
+    <div class="login-card-container">
+        <div class="login-card">
+            <div class="card-header-modern text-center">
                 <h3>SISTEMA ACADEMICO</h3>
                 <p class="mb-0">Inicio de Sesión</p>
             </div>
             <div class="card-body">
                 <form id="frmLogin">
-                    <div class="mb-3">
-                        <label for="txtUsuario" class="form-label">Usuario</label>
-                        <input required type="text" id="txtUsuario" name="txtUsuario" class="form-control" placeholder="Ingrese su usuario" />
+                    <div class="mb-4"> <label for="txtUsuario" class="form-label">Usuario</label>
+                        <input required type="text" id="txtUsuario" name="txtUsuario" class="form-control form-control-modern" placeholder="Ingrese su usuario" />
                     </div>
-                    <div class="mb-3">
-                        <label for="txtClave" class="form-label">Contraseña</label>
-                        <input required type="password" id="txtClave" name="txtClave" class="form-control" placeholder="Ingrese su contraseña" />
+                    <div class="mb-4"> <label for="txtClave" class="form-label">Contraseña</label>
+                        <input required type="password" id="txtClave" name="txtClave" class="form-control form-control-modern" placeholder="Ingrese su contraseña" />
                     </div>
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">INGRESAR</button>
+                    <div class="d-grid mt-5"> <button type="submit" class="btn btn-ingresar-modern">INGRESAR</button>
                     </div>
                 </form>
             </div>
@@ -80,4 +175,4 @@
         });
     </script>
 </body>
-</html>   
+</html>

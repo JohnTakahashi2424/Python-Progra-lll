@@ -1,56 +1,328 @@
-<form id="frmUsuarios">
-    <div class="card text-bg-dark" style="min-width: 700px;">
-        <div class="card-header">
-            <div class="d-flex">
-                ADMINISTRACION DE USUARIOS
-                <div class="ms-auto">
-                    <button data-form="usuarios" type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    .form-container {
+        font-family: 'Poppins', sans-serif;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        width: 600px;
+        max-width: 90vw;
+        overflow: hidden;
+        animation: slideIn 0.5s ease-out;
+        position: relative;
+    }
+    
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .form-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 30px;
+        color: white;
+        position: relative;
+        cursor: move;
+    }
+    
+    .form-header h2 {
+        font-size: 28px;
+        font-weight: 600;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .form-header .icon {
+        font-size: 32px;
+    }
+    
+    /* Adaptación del botón de cerrar */
+    .btn-close-modern { 
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 20px;
+        z-index: 10;
+        opacity: 1; /* Asegura que el botón sea visible */
+    }
+    
+    .btn-close-modern:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: rotate(90deg);
+    }
+    
+    .form-body {
+        padding: 40px;
+    }
+    
+    .form-group {
+        margin-bottom: 25px;
+        animation: fadeIn 0.5s ease-out;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    .form-group label {
+        display: block;
+        font-weight: 500;
+        color: #4a5568;
+        margin-bottom: 8px;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .input-wrapper {
+        position: relative;
+    }
+    
+    .input-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #a0aec0;
+        font-size: 18px;
+        pointer-events: none;
+    }
+    
+    .form-control-modern { /* Cambiado de .form-control para evitar conflicto con Bootstrap */
+        width: 100%;
+        padding: 14px 15px 14px 45px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 15px;
+        font-family: 'Poppins', sans-serif;
+        transition: all 0.3s;
+        background: #f7fafc;
+        color: #000000 !important;
+    }
+    
+    .form-control-modern::placeholder {
+        color: #a0aec0;
+    }
+    
+    .form-control-modern:focus {
+        outline: none;
+        border-color: #667eea;
+        background: white;
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        color: #000000 !important;
+    }
+    
+    .form-control-modern:hover {
+        border-color: #cbd5e0;
+    }
+    
+    .form-footer {
+        padding: 0 40px 40px;
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .btn-modern { /* Cambiado de .btn para evitar conflicto con Bootstrap */
+        padding: 14px 32px;
+        border: none;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-family: 'Poppins', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    /* Mantenemos los nombres de clase de Bootstrap para los colores de botón, pero usamos el nuevo estilo */
+    .btn-outline-primary, .btn-primary { 
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white !important;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        border: none !important;
+    }
+    
+    .btn-outline-primary:hover, .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+    
+    .btn-outline-warning, .btn-warning {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white !important;
+        box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+        border: none !important;
+    }
+    
+    .btn-outline-warning:hover, .btn-warning:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(245, 87, 108, 0.6);
+    }
+    
+    .btn-outline-info, .btn-info {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white !important;
+        box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+        border: none !important;
+    }
+    
+    .btn-outline-info:hover, .btn-info:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(79, 172, 254, 0.6);
+    }
+    
+    .btn-modern:active, .btn-outline-primary:active, .btn-outline-warning:active, .btn-outline-info:active {
+        transform: translateY(0);
+    }
+    
+    /* Adaptación del grid de Bootstrap al nuevo diseño */
+    .row-form { 
+        display: grid;
+        grid-template-columns: 1fr; /* Para mantener la estructura vertical en el formulario de Usuarios */
+        gap: 0;
+    }
+    .row-form > div {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .row-form label {
+        flex-basis: 120px; /* Ancho fijo para las etiquetas */
+        margin-bottom: 0;
+    }
+    .row-form .input-container {
+        flex-grow: 1;
+    }
+    
+    @media (max-width: 640px) {
+        .form-body {
+            padding: 30px 20px;
+        }
+        
+        .form-footer {
+            padding: 0 20px 30px;
+            flex-direction: column;
+        }
+        
+        .btn-modern, .btn-outline-primary, .btn-outline-warning, .btn-outline-info {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .row-form > div {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .row-form label {
+            flex-basis: auto;
+            margin-bottom: 8px;
+        }
+    }
+</style>
+
+<form id="frmUsuarios" class="form-container">
+    <div class="form-header">
+        <h2>
+            <span class="icon">👤</span>
+            ADMINISTRACIÓN DE USUARIOS
+        </h2>
+        <button data-form="usuarios" type="button" class="btn-close-modern" aria-label="Close">✕</button>
+    </div>
+    
+    <div class="form-body">
+        <div class="row-form">
+            <div class="form-group">
+                <label for="txtUsuario">USUARIO</label>
+                <div class="input-wrapper input-container">
+                    <span class="input-icon">🔑</span>
+                    <input required type="text" id="txtUsuario" name="txtUsuario" class="form-control-modern" placeholder="Nombre de usuario" />
                 </div>
             </div>
-        </div>
-        <div class="card-body">
-            <div class="row p-1">
-                <div class="col-3 col-md-2">USUARIO</div>
-                <div class="col-9 col-md-3">
-                    <input required type="text" id="txtUsuario" name="txtUsuario" class="form-control form-control-sm" />
+            
+            <div class="form-group">
+                <label for="txtClave">CLAVE</label>
+                <div class="input-wrapper input-container">
+                    <span class="input-icon">🔒</span>
+                    <input required type="password" id="txtClave" name="txtClave" class="form-control-modern" placeholder="Contraseña" />
                 </div>
             </div>
-            <div class="row p-1">
-                <div class="col-3 col-md-2">CLAVE</div>
-                <div class="col-9 col-md-3">
-                    <input required type="password" id="txtClave" name="txtClave" class="form-control form-control-sm" />
+            
+            <div class="form-group">
+                <label for="txtNombre">NOMBRE</label>
+                <div class="input-wrapper input-container">
+                    <span class="input-icon">📇</span>
+                    <input required type="text" id="txtNombre" name="txtNombre" class="form-control-modern" placeholder="Nombre completo" />
                 </div>
             </div>
-            <div class="row p-1">
-                <div class="col-3 col-md-2">NOMBRE</div>
-                <div class="col-9 col-md-6">
-                    <input required type="text" id="txtNombre" name="txtNombre" class="form-control form-control-sm" />
+            
+            <div class="form-group">
+                <label for="txtDireccion">DIRECCIÓN</label>
+                <div class="input-wrapper input-container">
+                    <span class="input-icon">📍</span>
+                    <input required type="text" id="txtDireccion" name="txtDireccion" class="form-control-modern" placeholder="Dirección del usuario" />
                 </div>
             </div>
-            <div class="row p-1">
-                <div class="col-3 col-md-2">DIRECCION</div>
-                <div class="col-9 col-md-8">
-                    <input required type="text" id="txtDireccion" name="txtDireccion" class="form-control form-control-sm" />
+            
+            <div class="form-group">
+                <label for="txtTelefono">TELÉFONO</label>
+                <div class="input-wrapper input-container">
+                    <span class="input-icon">📞</span>
+                    <input type="text" id="txtTelefono" name="txtTelefono" class="form-control-modern" maxlength="9" placeholder="9999-9999" />
                 </div>
             </div>
-            <div class="row p-1">
-                <div class="col-3 col-md-2">TELEFONO</div>
-                <div class="col-9 col-md-3">
-                    <input type="text" id="txtTelefono" name="txtTelefono" class="form-control form-control-sm" maxlength="9" />
-                </div>
-            </div>
-        </div>
-        <div class="card-footer text-center">
-            <input type="submit" id="btnGuardarUsuario" name="btnGuardarUsuario" class="btn btn-outline-primary" value="GUARDAR" />
-            <input type="reset" id="btnNuevoUsuario" name="btnNuevoUsuario" class="btn btn-outline-warning" value="NUEVO" />
-            <input type="button" id="btnBuscarUsuario" name="btnBuscarUsuario" class="btn btn-outline-info" value="BUSCAR" />
         </div>
     </div>
+    
+    <div class="form-footer">
+        <input type="submit" id="btnGuardarUsuario" name="btnGuardarUsuario" class="btn-modern btn-outline-primary" value="💾 GUARDAR" />
+        <input type="reset" id="btnNuevoUsuario" name="btnNuevoUsuario" class="btn-modern btn-outline-warning" value="🔄 NUEVO" />
+        <input type="button" id="btnBuscarUsuario" name="btnBuscarUsuario" class="btn-modern btn-outline-info" value="🔍 BUSCAR" />
+    </div>
 </form>
+
 <script>
     var accion = "nuevo",
         idUsuario = 0;
     
+    // **ADAPTACIÓN 1: Listener para el botón de cerrar (adaptado a la nueva clase)**
+    document.querySelector('.btn-close-modern[data-form="usuarios"]').addEventListener('click', function() {
+        // Asumiendo que el formulario está dentro de un div con id='usuarios'
+        const formParent = this.closest('.form-container').parentElement;
+        if (formParent && formParent.id === 'usuarios') {
+            formParent.style.display = 'none';
+        }
+        // O si el formulario se muestra directamente, podrías necesitar una lógica diferente,
+        // pero este es el cierre más común para modales/ventanas.
+    });
+
     frmUsuarios.addEventListener("submit",e=>{
         e.preventDefault();
         guardarUsuarios();
@@ -66,16 +338,29 @@
             direccion: txtDireccion.value,
             telefono: txtTelefono.value
         };
+        // **IMPORTANTE: Si tu backend requiere Content-Type: application/json, descomenta lo siguiente:**
+        /*
         let response = await fetch("/usuarios",{
             method: "POST",
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(datos),
         }), 
+        */
+        // Si no lo requiere, sigue con el código original, pero usando el JSON.stringify del formulario de materias como referencia.
+        
+        let response = await fetch("/usuarios",{
+            method: "POST",
+            body: JSON.stringify(datos), // Usamos JSON.stringify para asegurar que se envíe el objeto como JSON
+            headers: { 'Content-Type': 'application/json' }
+        }), 
             respuesta = await response.json();
-        if(respuesta.msg!="ok"){
-            alertify.error(`Error al procesar usuario: ${respuesta.msg}`);
+            
+        if(respuesta.msg && respuesta.msg.toLowerCase().includes("error") || respuesta.msg!="ok"){
+            alertify.error(`Error al procesar usuario: ${respuesta.msg || 'Error desconocido'}`);
             return;
         }
         
+        // **LÓGICA DE MENSAJES MANTENIDA**
         if(accion === "nuevo"){
             alertify.success('Usuario agregado correctamente');
         } else if(accion === "modificar"){
@@ -99,6 +384,9 @@
         txtNombre.value = "";
         txtDireccion.value = "";
         txtTelefono.value = "";
+        
+        // **ADICIÓN: Foco al primer campo después de limpiar**
+        txtUsuario.focus(); 
     }
     
     function mostrarUsuario(usuario){
@@ -116,4 +404,4 @@
         e.preventDefault();
         abrirVentana('busqueda_usuarios');
     });
-</script>  
+</script>
