@@ -27,4 +27,4 @@ class crud:
             self.conexion.commit()
             return "ok"
         except Error as e:
-            return str(e)        
+            return str(e)           

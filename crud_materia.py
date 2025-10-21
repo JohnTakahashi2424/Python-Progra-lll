@@ -22,4 +22,4 @@ class crud_materia:
         if datos['accion']=="eliminar":
             sql = "DELETE FROM materias WHERE idMateria=%s"
             valores = (datos['idMateria'],)
-        return db.ejecutar(sql, valores)
+        return db.ejecutar(sql, valores)   

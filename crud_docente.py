@@ -22,4 +22,4 @@ class crud_docente:
         if datos['accion']=="eliminar":
             sql = "DELETE FROM docentes WHERE idDocente=%s"
             valores = (datos['idDocente'],)
-        return db.ejecutar(sql, valores)
+        return db.ejecutar(sql, valores)   

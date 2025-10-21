@@ -29,4 +29,4 @@ class crud_usuario:
         if datos['accion']=="eliminar":
             sql = "DELETE FROM usuarios WHERE idUsuario=%s"
             valores = (datos['idUsuario'],)
-        return db.ejecutar(sql, valores)
+        return db.ejecutar(sql, valores)   

@@ -23,3 +23,4 @@ class crud_alumno:
             sql = "DELETE FROM alumnos WHERE idAlumno=%s"
             valores = (datos['idAlumno'],)
         return db.ejecutar(sql, valores)
+   
