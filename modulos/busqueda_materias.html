@@ -60,4 +60,9 @@
             alertify.success('Materia eliminada correctamente');
         }
     }
+
+    // ⭐ CÓDIGO NUEVO PARA CERRAR ⭐
+    document.querySelector('.btn-close[data-form="busqueda_materias"]').addEventListener('click', function() {
+        document.getElementById('busqueda_materias').style.display = 'none';
+    });
 </script>

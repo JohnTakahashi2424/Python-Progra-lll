@@ -27,11 +27,13 @@
 </form>
 <script>
     obtenerAlumnos();
+    
     async function obtenerAlumnos(){
         let response = await fetch("/alumnos"), 
             respuesta = await response.json();
         mostrarDatosAlumnos(respuesta);
     }
+    
     function mostrarDatosAlumnos(alumnos){
         let filas = "";
         alumnos.forEach(alumno=>{
@@ -48,6 +50,7 @@
         });
         tblAlumnos.innerHTML = filas;
     }
+    
     function eliminarAlumno(alumno, event){
         event.preventDefault();
 
@@ -58,4 +61,9 @@
             alertify.success('Alumno eliminado correctamente');
         }
     }
+
+    // ⭐ CÓDIGO NUEVO PARA CERRAR ⭐
+    document.querySelector('.btn-close[data-form="busqueda_alumnos"]').addEventListener('click', function() {
+        document.getElementById('busqueda_alumnos').style.display = 'none';
+    });
 </script>
