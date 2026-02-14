@@ -7,8 +7,8 @@
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css"/>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css"/>
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap">
     
@@ -32,6 +32,7 @@
             left: 0;
             right: 0;
             background: rgba(0, 0, 0, 0.4); 
+            -webkit-backdrop-filter: blur(15px);
             backdrop-filter: blur(15px); 
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             z-index: 1000;
@@ -59,36 +60,35 @@
         .navbar-brand-modern {
             font-size: 28px;
             font-weight: 700;
-            /* Gradiente de contraste para asegurar la lectura */
-            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); 
-            
-            /* 🔥 SOLUCIÓN AL ERROR: Aseguramos el display correcto */
-            display: inline-block; 
-            
-            /* MANTENIDOS: Necesarios para el efecto */
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            
+            background-clip: text;
+            color: transparent;
             text-decoration: none;
             padding: 0;
             margin: 0;
             letter-spacing: 1px;
-            transition: all 0.3s;
+            transition: opacity 0.3s ease;
+            display: inline-block;
+            white-space: nowrap;
         }
 
         .navbar-brand-modern:hover {
-            opacity: 0.9;
+            opacity: 0.8;
         }
 
         /* Estilo de los enlaces de navegación */
         .nav-link-modern {
             color: rgba(255, 255, 255, 0.9) !important;
             font-weight: 500;
-            transition: color 0.3s, background-color 0.3s;
+            transition: color 0.3s ease, background-color 0.3s ease;
             border-radius: 8px;
             padding: 8px 15px;
             text-transform: uppercase;
             font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .nav-link-modern:hover {
@@ -118,15 +118,16 @@
             border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-decoration: none !important;
             font-weight: 600;
             font-size: 14px;
+            display: inline-block;
         }
 
         .btn-logout-modern:hover {
             opacity: 0.9;
             transform: scale(1.05);
             box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+            color: white;
         }
 
         /* Posicionamiento de las ventanas flotantes */
@@ -175,10 +176,10 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js" integrity="sha512-MSOo1aY+3pXCOCdGAYoBZ6YGI0aragoQsg1mKKBHXCYPIWxamwOE7Drh+N5CPgGI5SA9IEKJiPjdfqWFWmZtRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
     <script>
         // LÓGICA JAVASCRIPT: NO MODIFICADA
-        document.addEventListener("DOMContentLoaded", event=>{
+        document.addEventListener("DOMContentLoaded", (event) => {
             let usuarioLogueado = localStorage.getItem("usuarioLogueado");
             if(!usuarioLogueado){
                 window.location.href = "login.html";
@@ -188,7 +189,7 @@
             let usuario = JSON.parse(usuarioLogueado);
             lblUsuario.textContent = `Usuario: ${usuario.nombre}`;
             
-            mnxAcademica.addEventListener('click', e=>{
+            mnxAcademica.addEventListener('click', (e) => {
                 e.preventDefault();
                 
                 let form = e.target.dataset.form;
@@ -197,7 +198,7 @@
                 }
             });
             
-            btnCerrarSesion.addEventListener('click', e=>{
+            btnCerrarSesion.addEventListener('click', (e) => {
                 e.preventDefault();
                 localStorage.removeItem("usuarioLogueado");
                 alertify.success('Sesión cerrada correctamente');
@@ -222,7 +223,7 @@
             }
         }
         function cerrarVentana(){
-            $('.btn-close, .btn-close-modern').off('click').click(e=>{
+            $('.btn-close, .btn-close-modern').off('click').click((e) => {
                 let form = e.target.dataset.form;
                 $(`#${form}`).hide();
             });
